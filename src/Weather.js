@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import WeatherInfo from "./WeatherInfo";
 import "./Weather.css";
@@ -23,6 +23,35 @@ export default function Weather(props) {
     });
   }
 
+  useEffect(() => {
+    fetchWeatherData();
+  }, []);
+
+  const fetchWeatherData = () => {
+    fetch("https://api.shecodes.io/weather")
+      .then((response) => response.json())
+      .then((data) => setWeatherData(data))
+      .catch((error) => console.log(error));
+  };
+
+  const getBackgroundImage = () => {
+    if (!weatherData) {
+      return "sunny.jpg";
+    } else if (weatherData.weather === "sunny") {
+      return "sunny.jpg";
+    } else if (weatherData.weather === "cloudy") {
+      return "cloudy.jpg";
+    } else if (weatherData.weather === "rainy") {
+      return "rainy.jpg";
+    } else if (weatherData.weather === "snow") {
+      return "snow.jpg";
+    } else if (weatherData.weather === "cold") {
+      return "snow.jpg";
+    } else if (weatherData.weather === "thunder") {
+      return "thunder.jpg";
+    }
+  };
+
   function toggleTemperatureUnit() {
     setTemperatureUnit(
       temperatureUnit === "celsius" ? "fahrenheit" : "celsius"
@@ -41,37 +70,50 @@ export default function Weather(props) {
     setCity(event.target.value);
   }
 
-  if (weatherData.ready) {
-    return (
-      <div className="Weather">
-        <form onSubmit={handleSubmit}>
-          <div className="row">
-            <div className="col-9">
-              <input
-                type="search"
-                placeholder="Enter City"
-                className="form-control"
-                autoFocus="on"
-                onChange={handleCityChange}
-                value={city}
-              />
+  return (
+    <div
+      style={{
+        backgroundImage: `url(${getBackgroundImage()})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      {weatherData.ready ? (
+        <div className="Weather">
+          <form onSubmit={handleSubmit}>
+            <div className="row">
+              <div className="col-9">
+                <input
+                  type="search"
+                  placeholder="Enter City"
+                  className="form-control"
+                  autoFocus="on"
+                  onChange={handleCityChange}
+                  value={city}
+                />
+              </div>
+              <div className="col-3">
+                <button onClick={toggleTemperatureUnit}>
+                  {temperatureUnit === "celsius" ? "°C" : "°F"}
+                </button>
+                <input
+                  type="submit"
+                  value="search"
+                  className="btn btn-light w-100"
+                />
+              </div>
             </div>
-            <div className="col-3">
-              <button onClick={toggleTemperatureUnit}>
-                {temperatureUnit === "celsius" ? "°C" : "°F"}
-              </button>
-              <input
-                type="submit"
-                value="search"
-                className="btn btn-light w-100"
-              />
-            </div>
-          </div>
-        </form>
-        <WeatherInfo data={weatherData} />
-      </div>
-    );
-  } else {
-    return "Loading...";
-  }
+          </form>
+          <WeatherInfo data={weatherData} />
+        </div>
+      ) : (
+        "Loading..."
+      )}
+    </div>
+  );
 }
