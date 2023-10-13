@@ -6,6 +6,7 @@ import "./Weather.css";
 export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
   const [weatherData, setWeatherData] = useState({ ready: false });
+  const [temperatureUnit, setTemperatureUnit] = useState("celsius");
 
   function handleResponse(response) {
     const { city, condition, temperature, wind, time } = response.data;
@@ -22,16 +23,18 @@ export default function Weather(props) {
     });
   }
 
-  function search() {
-    const apiKey = "ae997t30869fc345038bf7f0abaao7e6";
-    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
-
-    axios.get(apiUrl).then(handleResponse);
+  function toggleTemperatureUnit() {
+    setTemperatureUnit(
+      temperatureUnit === "celsius" ? "fahrenheit" : "celsius"
+    );
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    search();
+    const apiKey = "ae997t30869fc345038bf7f0abaao7e6";
+    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+
+    axios.get(apiUrl).then(handleResponse);
   }
 
   function handleCityChange(event) {
@@ -50,9 +53,13 @@ export default function Weather(props) {
                 className="form-control"
                 autoFocus="on"
                 onChange={handleCityChange}
+                value={city}
               />
             </div>
             <div className="col-3">
+              <button onClick={toggleTemperatureUnit}>
+                {temperatureUnit === "celsius" ? "°C" : "°F"}
+              </button>
               <input
                 type="submit"
                 value="search"
@@ -65,7 +72,6 @@ export default function Weather(props) {
       </div>
     );
   } else {
-    search();
     return "Loading...";
   }
 }
