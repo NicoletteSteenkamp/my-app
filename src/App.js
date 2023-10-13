@@ -1,3 +1,4 @@
+import React from "react";
 import "./App.css";
 
 import Weather from "./Weather";
@@ -12,7 +13,7 @@ function App() {
           <a
             href="https://github.com/NicoletteSteenkamp/my-app"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             Github
           </a>{" "}
@@ -20,7 +21,7 @@ function App() {
           <a
             href="https://iridescent-buttercream-cbf8d5.netlify.app/"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             Netlify
           </a>
