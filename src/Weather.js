@@ -25,10 +25,13 @@ export default function Weather(props) {
 
   useEffect(() => {
     fetchWeatherData();
-  }, []);
+  }, [city]);
 
   const fetchWeatherData = () => {
-    fetch("https://api.shecodes.io/weather")
+    const apiKey = "ae997t30869fc345038bf7f0abaao7e6";
+    fetch(
+      `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`
+    )
       .then((response) => response.json())
       .then((data) => setWeatherData(data))
       .catch((error) => console.log(error));
@@ -114,6 +117,7 @@ export default function Weather(props) {
       ) : (
         "Loading..."
       )}
+      <WeeklyForecast />
     </div>
   );
 }
