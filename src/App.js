@@ -10,7 +10,7 @@ function App() {
           This app is coded by Nicolette Steenkamp and the open source code is
           here on{" "}
           <a
-            href="https://github.com/NicoletteSteenkamp/weather-react"
+            href="https://github.com/NicoletteSteenkamp/my-app"
             target="_blank"
             rel="noreferrer"
           >
@@ -18,7 +18,7 @@ function App() {
           </a>{" "}
           and is deployed here{" "}
           <a
-            href="https://gilded-kringle-0cc646.netlify.app/"
+            href="https://iridescent-buttercream-cbf8d5.netlify.app/"
             target="_blank"
             rel="noreferrer"
           >
