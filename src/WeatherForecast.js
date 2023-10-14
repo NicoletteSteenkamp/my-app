@@ -1,85 +1,51 @@
-import React, { useState } from "react";
-import WeatherInfo from "./WeatherInfo";
+import React, { useState, useEffect } from "react";
 import "./WeatherForecast.css";
+import axios from "axios";
+import WeatherForecastDay from "./WeatherForecastDay";
 
-export default function WeatherForecast() {
-  const [forecast, setForecast] = useState([]);
+export default function WeatherForecast(props) {
+  let [loaded, setLoaded] = useState(false);
+  let [forecast, setForecast] = useState(null);
 
-  function getUserLocation() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        const lat = position.coords.latitude;
-        const lon = position.coords.longitude;
+  useEffect(() => {
+    setLoaded(false);
+  }, [props.coordinates]);
 
-        const apiKey = "ae997t30869fc345038bf7f0abaao7e6";
-        fetch(
-          `https://api.shecodes.io/weather/v1/forecast?lat=${lat}&lon=${lon}&key=${apiKey}`
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            setForecast(data);
-          })
-          .catch((error) => console.error(error));
-      });
-    } else {
-      console.log("Geolocation is not available in this browser.");
-    }
+  function handleResponse(response) {
+    setForecast(response.data.daily);
+    setLoaded(true);
   }
 
-  getUserLocation();
+  function load() {
+    let apiKey = "701f06352d61835bc4fc894e7b084629";
+    let longitude = props.coordinates.lon;
+    let latitude = props.coordinates.lat;
+    let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
 
-  return (
-    <div className="WeatherForecast">
-      <div className="row">
-        <div className="col">
-          <div className="WeatherForecast-day">Sat</div>
-          <WeatherInfo condition={forecast.icon_url} />
-          <div className="WeatherForecast-temperatures">
-            <span className="WeatherForecast-temperatures-max"> 19</span>
-            <span className="WeatherForecast-temperatures-min">13</span>
-          </div>
-        </div>
-        <div className="col">
-          <div className="WeatherForecast-day">Sat</div>
-          <WeatherInfo condition={forecast.icon_url} />
-          <div className="WeatherForecast-temperatures">
-            <span className="WeatherForecast-temperatures-max"> 19</span>
-            <span className="WeatherForecast-temperatures-min">13</span>
-          </div>
-        </div>
-        <div className="col">
-          <div className="WeatherForecast-day">Sat</div>
-          <WeatherInfo condition={forecast.icon_url} />
-          <div className="WeatherForecast-temperatures">
-            <span className="WeatherForecast-temperatures-max"> 19</span>
-            <span className="WeatherForecast-temperatures-min">13</span>
-          </div>
-        </div>
-        <div className="col">
-          <div className="WeatherForecast-day">Sat</div>
-          <WeatherInfo condition={forecast.icon_url} />
-          <div className="WeatherForecast-temperatures">
-            <span className="WeatherForecast-temperatures-max"> 19</span>
-            <span className="WeatherForecast-temperatures-min">13</span>
-          </div>
-        </div>
-        <div className="col">
-          <div className="WeatherForecast-day">Sat</div>
-          <WeatherInfo condition={forecast.icon_url} />
-          <div className="WeatherForecast-temperatures">
-            <span className="WeatherForecast-temperatures-max"> 19</span>
-            <span className="WeatherForecast-temperatures-min">13</span>
-          </div>
-        </div>
-        <div className="col">
-          <div className="WeatherForecast-day">Sat</div>
-          <WeatherInfo condition={forecast.icon_url} />
-          <div className="WeatherForecast-temperatures">
-            <span className="WeatherForecast-temperatures-max"> 19</span>
-            <span className="WeatherForecast-temperatures-min">13</span>
-          </div>
+    axios.get(apiUrl).then(handleResponse);
+  }
+
+  if (loaded) {
+    return (
+      <div className="WeatherForecast">
+        <div className="row">
+          {forecast.map(function (dailyForecast, index) {
+            if (index < 5) {
+              return (
+                <div className="col" key={index}>
+                  <WeatherForecastDay data={dailyForecast} />
+                </div>
+              );
+            } else {
+              return null;
+            }
+          })}
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    load();
+
+    return null;
+  }
 }
