@@ -55,7 +55,7 @@ body {
 }
 
 .button {
-  background-color: #010101;
+  background-color: #1f1e1e;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -67,7 +67,7 @@ body {
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: pink;
 }
 
 /*link styling*/
