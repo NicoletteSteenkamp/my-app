@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import WeatherInfo from "./WeatherInfo";
 import "./Weather.css";
@@ -24,20 +24,13 @@ export default function Weather(props) {
     });
   }
 
-  console.log({ weatherData });
-  useEffect(() => {
-    handleSubmit({ preventDefault: function () {} });
-  }, []);
-
-  const fetchWeatherData = () => {
+  function handleSubmit(event) {
+    event.preventDefault();
     const apiKey = "ae997t30869fc345038bf7f0abaao7e6";
-    fetch(
-      `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`
-    )
-      .then((response) => response.json())
-      .then((response) => handleResponse(response))
-      .catch((error) => console.log(error));
-  };
+    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
+
+    axios.get(apiUrl).then(handleResponse);
+  }
 
   const getBackgroundImage = () => {
     if (!weatherData) {
@@ -61,14 +54,6 @@ export default function Weather(props) {
     setTemperatureUnit(
       temperatureUnit === "celsius" ? "fahrenheit" : "celsius"
     );
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const apiKey = "ae997t30869fc345038bf7f0abaao7e6";
-    const apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
-
-    axios.get(apiUrl).then(handleResponse);
   }
 
   function handleCityChange(event) {
