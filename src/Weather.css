@@ -2,11 +2,9 @@
   font-family: arial, sans-serif;
   padding: 16px;
   border-radius: 4px;
-  border: 1px solid #dadde1;
 }
 
 body {
-  background-image: url(./images/default.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   height: 100vh;
