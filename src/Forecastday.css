@@ -1,0 +1,19 @@
+.TemperatureUnitToggle {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.TemperatureUnitToggle:hover {
+  background-color: pink;
+}
+
+.TemperatureUnitToggle::after {
+  content: attr(data-unit);
+  margin-left: 4px;
+}

@@ -5,9 +5,9 @@
 }
 
 body {
+  background-image: url(./images/default.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  height: 100vh;
 }
 
 .Weather h1 {

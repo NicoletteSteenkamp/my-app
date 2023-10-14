@@ -1,15 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import WeatherIcon from "./WeatherIcon";
+import "./Forecastday.css";
 
 export default function WeatherForecastDay(props) {
+  const [isCelsius, setIsCelsius] = useState(true);
+
+  function toggleTemperatureUnit() {
+    setIsCelsius(!isCelsius);
+  }
+
   function maxTemperature() {
-    let temperature = Math.round(props.data.temp.max);
-    return `${temperature}°`;
+    const temp = isCelsius
+      ? props.data.temp.max
+      : (props.data.temp.max * 9) / 5 + 32;
+    return `${Math.round(temp)}°${isCelsius ? "C" : "F"}`;
   }
 
   function minTemperature() {
-    let temperature = Math.round(props.data.temp.min);
-    return `${temperature}°`;
+    const temp = isCelsius
+      ? props.data.temp.min
+      : (props.data.temp.min * 9) / 5 + 32;
+    return `${Math.round(temp)}°${isCelsius ? "C" : "F"}`;
   }
 
   function day() {
@@ -33,6 +44,9 @@ export default function WeatherForecastDay(props) {
           {minTemperature()}
         </span>
       </div>
+      <button className="TemperatureUnitToggle" onClick={toggleTemperatureUnit}>
+        {isCelsius ? "°F" : "°C"}
+      </button>
     </div>
   );
 }
