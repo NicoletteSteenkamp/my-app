@@ -5,6 +5,11 @@
   background-color: rgba(0, 0, 0, 0.2);
   color: white;
 }
+body {
+  background-image: url(./images/default.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 footer {
   font-size: 15px;

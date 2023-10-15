@@ -60,6 +60,8 @@ function WeatherApp() {
       <div
         style={{
           backgroundImage: `url('${backgroundImage}')`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
         }}
       ></div>
     </div>

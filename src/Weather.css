@@ -4,12 +4,6 @@
   border-radius: 4px;
 }
 
-body {
-  background-image: url(./images/default.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 .Weather h1 {
   font-size: 24px;
   font-weight: 100;
